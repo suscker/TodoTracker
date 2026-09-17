@@ -1,0 +1,33 @@
+@TodoTracker_HostAddress = http://localhost:5187
+
+### Получить все проекты
+GET {{TodoTracker_HostAddress}}/api/projects
+Accept: application/json
+
+### Получить проект
+GET {{TodoTracker_HostAddress}}/api/projects/01a0af50-591e-77c0-9aef-ae60b9e7cc44
+Accept: application/json
+
+### Создать проект
+POST {{TodoTracker_HostAddress}}/api/projects
+Content-Type: application/json
+
+{
+  "name": "Учёба",
+  "description": "Курсы и книги"
+}
+### Создать проект с пустым именем
+POST {{TodoTracker_HostAddress}}/api/projects
+Content-Type: application/json
+
+{
+  "name": "",
+  "description": "Тест валидации"
+}
+### Создать проект без имени
+POST {{TodoTracker_HostAddress}}/api/projects
+Content-Type: application/json
+
+{
+  "description": "Тест валидации"
+}
