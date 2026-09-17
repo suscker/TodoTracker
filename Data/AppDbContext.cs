@@ -13,5 +13,12 @@ public class AppDbContext : DbContext
     {
         
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Project>()
+            .HasOne(p => p.Owner)
+            .WithMany(u => u.Projects)
+            .HasForeignKey(p => p.OwnerId);
+    }
 
 }

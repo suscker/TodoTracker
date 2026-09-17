@@ -2,6 +2,7 @@ namespace TodoTracker.Models;
 
 public class User
 {
+    public List<Project> Projects { get; set; } = new();
     public Guid Id { get; set; }
     
     public string Login { get; set; } = string.Empty;
