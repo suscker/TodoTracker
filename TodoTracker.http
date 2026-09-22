@@ -31,3 +31,35 @@ Content-Type: application/json
 {
   "description": "Тест валидации"
 }
+
+
+
+### Регистрация
+POST {{TodoTracker_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+  "login": "alice",
+  "password": "password123",
+  "name": "Alice"
+}
+
+### Повторная регистрация (должен быть 409)
+POST {{TodoTracker_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+  "login": "alice",
+  "password": "anotherpass",
+  "name": "Alice 2"
+}
+
+### Регистрация с коротким паролем (должен быть 400)
+POST {{TodoTracker_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+  "login": "bob",
+  "password": "123",
+  "name": "Bob"
+}
