@@ -63,3 +63,33 @@ Content-Type: application/json
   "password": "123",
   "name": "Bob"
 }
+
+
+
+
+### Успешный логин
+POST {{TodoTracker_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "login": "alice",
+  "password": "password123"
+}
+
+### Неверный пароль (должен быть 401)
+POST {{TodoTracker_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "login": "alice",
+  "password": "wrongpassword"
+}
+
+### Несуществующий логин (должен быть 401)
+POST {{TodoTracker_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "login": "nonexistent",
+  "password": "whatever123"
+}
