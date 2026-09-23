@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TodoTracker.Models;
 using TodoTracker.Models.Dto;
 using TodoTracker.Data;
+using TodoTracker.Services;
 
 
 namespace TodoTracker.Controllers;
@@ -11,13 +12,14 @@ namespace TodoTracker.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-
+    private readonly JwtService _jwtService;
     private readonly AppDbContext _db;
     private readonly IPasswordHasher<User> _passwordHasher;
-    public AuthController(AppDbContext db, IPasswordHasher<User> passwordHasher)
+    public AuthController(AppDbContext db, IPasswordHasher<User> passwordHasher, JwtService jwtService)
     {
         _db = db;
         _passwordHasher = passwordHasher;
+        _jwtService = jwtService;
     }
 
     [HttpPost("login")]
@@ -33,8 +35,9 @@ public class AuthController : ControllerBase
         {
             return Unauthorized();
         }
-
-        return new LoginResponse{Token = "stub"};
+        return new LoginResponse{
+            Token = _jwtService.GenerateToken(user)
+        };
     }
 
 }

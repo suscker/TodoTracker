@@ -93,3 +93,13 @@ Content-Type: application/json
   "login": "nonexistent",
   "password": "whatever123"
 }
+
+
+### Логин
+POST {{TodoTracker_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "login": "alice",
+  "password": "password123"
+}

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TodoTracker.Data;
 using TodoTracker.Models;
+using TodoTracker.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,6 +18,8 @@ builder.Services.AddDbContext<AppDbContext>(
     
 );
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+builder.Services.AddSingleton<JwtService>();
 
 var app = builder.Build();
 
