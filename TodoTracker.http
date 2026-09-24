@@ -103,3 +103,17 @@ Content-Type: application/json
   "login": "alice",
   "password": "password123"
 }
+
+###
+GET {{TodoTracker_HostAddress}}/api/projects
+
+
+###
+GET {{TodoTracker_HostAddress}}/api/projects
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWEwYzhkYy1hYzdlLTc5MzctYWQzYi0xZDUxMGFjMzJjN2EiLCJsb2dpbiI6ImFsaWNlIiwiZXhwIjoxNzkwMjQ1Mjc4LCJpc3MiOiJUb2RvVHJhY2tlciIsImF1ZCI6IlRvZG9UcmFja2VyQ2xpZW50In0.DGxObMltQo-lpETK7yExiMPG_OaTjkyqlSxRhuAl1Lk
+
+###
+GET {{TodoTracker_HostAddress}}/api/projects
+Authorization: Bearer invalid.token.here
+
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWEwYzhkYy1hYzdlLTc5MzctYWQzYi0xZDUxMGFjMzJjN2EiLCJsb2dpbiI6ImFsaWNlIiwiZXhwIjoxNzkwMjQ1Mjc4LCJpc3MiOiJUb2RvVHJhY2tlciIsImF1ZCI6IlRvZG9UcmFja2VyQ2xpZW50In0.DGxObMltQo-lpETK7yExiMPG_OaTjkyqlSxRhuAl1Lk"

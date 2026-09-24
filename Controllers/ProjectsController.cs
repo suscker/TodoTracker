@@ -3,8 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using TodoTracker.Models;
 using TodoTracker.Models.Dto;
 using TodoTracker.Data;
+using Microsoft.AspNetCore.Authorization;
 namespace TodoTracker.Controllers;
-
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ProjectsController : ControllerBase
