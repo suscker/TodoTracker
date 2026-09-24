@@ -37,7 +37,6 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = IssuerSigningKey
         
     };
-
 });
 
 

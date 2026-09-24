@@ -4,6 +4,10 @@ using TodoTracker.Models;
 using TodoTracker.Models.Dto;
 using TodoTracker.Data;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+
+
+
 namespace TodoTracker.Controllers;
 [Authorize]
 [ApiController]
@@ -11,7 +15,6 @@ namespace TodoTracker.Controllers;
 public class ProjectsController : ControllerBase
 {
 
-    private static readonly Guid _fakeOwnerId = Guid.CreateVersion7();
 
     private readonly AppDbContext _db;
     public ProjectsController(AppDbContext context)
@@ -37,13 +40,15 @@ public class ProjectsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ProjectDto>> Create(CreateProjectRequest request)
     {
+
+        
         var  p = new Project()
         {
             
             Name = request.Name,
             Description = request.Description,
             Id = Guid.CreateVersion7(),
-            OwnerId = _fakeOwnerId // фейковый
+            OwnerId = GetCurrentUserId()
         };
 
         _db.Projects.Add(p);
@@ -61,5 +66,17 @@ public class ProjectsController : ControllerBase
         Name = p.Name,
         Description = p.Description
     };
+
+
+    private Guid GetCurrentUserId()
+    {
+        var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+        var value = claim?.Value;
+
+        if(Guid.TryParse(value, out Guid guid)) return guid;
+       
+        throw new UnauthorizedAccessException();
+        
+    }
 
 }
