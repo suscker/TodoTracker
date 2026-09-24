@@ -6,13 +6,35 @@ using TodoTracker.Models;
 using TodoTracker.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OpenApi;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    // 1. Описываем схему авторизации (например, JWT Bearer)
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Введите токен в формате: Bearer {ваш_токен}"
+    });
+
+    // 2. Добавляем глобальное требование безопасности
+    options.AddSecurityRequirement(document => new() { [new OpenApiSecuritySchemeReference("Bearer", document)] = [] });
+});
+
+
+//builder.Services.AddOpenApi();
 
 
 builder.Services.AddAuthentication(options =>
@@ -54,7 +76,13 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        // Настройка корневой точки (по желанию)
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    });
+
 }
 app.UseHttpsRedirection();
 
