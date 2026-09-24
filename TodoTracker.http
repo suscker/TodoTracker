@@ -44,6 +44,16 @@ Content-Type: application/json
   "name": "Alice"
 }
 
+### Регистрация
+POST {{TodoTracker_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+  "login": "bob",
+  "password": "password123",
+  "name": "bob"
+}
+
 ### Повторная регистрация (должен быть 409)
 POST {{TodoTracker_HostAddress}}/api/users
 Content-Type: application/json
@@ -67,12 +77,21 @@ Content-Type: application/json
 
 
 
-### Успешный логин
+### Успешный логин alice
 POST {{TodoTracker_HostAddress}}/api/auth/login
 Content-Type: application/json
 
 {
   "login": "alice",
+  "password": "password123"
+}
+
+### Успешный логин bob
+POST {{TodoTracker_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "login": "bob",
   "password": "password123"
 }
 
@@ -117,3 +136,38 @@ GET {{TodoTracker_HostAddress}}/api/projects
 Authorization: Bearer invalid.token.here
 
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWEwYzhkYy1hYzdlLTc5MzctYWQzYi0xZDUxMGFjMzJjN2EiLCJsb2dpbiI6ImFsaWNlIiwiZXhwIjoxNzkwMjQ1Mjc4LCJpc3MiOiJUb2RvVHJhY2tlciIsImF1ZCI6IlRvZG9UcmFja2VyQ2xpZW50In0.DGxObMltQo-lpETK7yExiMPG_OaTjkyqlSxRhuAl1Lk"
+
+
+###
+POST {{TodoTracker_HostAddress}}/api/projects
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWEwYzhkYy1hYzdlLTc5MzctYWQzYi0xZDUxMGFjMzJjN2EiLCJsb2dpbiI6ImFsaWNlIiwiZXhwIjoxNzkwMjQ1Mjc4LCJpc3MiOiJUb2RvVHJhY2tlciIsImF1ZCI6IlRvZG9UcmFja2VyQ2xpZW50In0.DGxObMltQo-lpETK7yExiMPG_OaTjkyqlSxRhuAl1Lk
+Content-Type: application/json
+
+{
+  "name": "Тестовый проект",
+  "description": "Проверка OwnerId"
+}
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWEwZDJkYS0yYTdkLTczNjgtYTE4Yi00NzM4N2YxOWIyNGUiLCJsb2dpbiI6ImJvYiIsImV4cCI6MTc5MDI0NzUzMiwiaXNzIjoiVG9kb1RyYWNrZXIiLCJhdWQiOiJUb2RvVHJhY2tlckNsaWVudCJ9.eaRZsc2B3Y9m69vJNPczf_PADWiYSHKNKJ9xwBTbySU
+
+
+###
+GET {{TodoTracker_HostAddress}}/api/projects
+
+
+
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWEwZDJkYS0yYTdkLTczNjgtYTE4Yi00NzM4N2YxOWIyNGUiLCJsb2dpbiI6ImJvYiIsImV4cCI6MTc5MDI0NzUzMiwiaXNzIjoiVG9kb1RyYWNrZXIiLCJhdWQiOiJUb2RvVHJhY2tlckNsaWVudCJ9.eaRZsc2B3Y9m69vJNPczf_PADWiYSHKNKJ9xwBTbySU
+
+
+
+###
+GET {{TodoTracker_HostAddress}}/api/projects
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWEwYzhkYy1hYzdlLTc5MzctYWQzYi0xZDUxMGFjMzJjN2EiLCJsb2dpbiI6ImFsaWNlIiwiZXhwIjoxNzkwMjQ1Mjc4LCJpc3MiOiJUb2RvVHJhY2tlciIsImF1ZCI6IlRvZG9UcmFja2VyQ2xpZW50In0.DGxObMltQo-lpETK7yExiMPG_OaTjkyqlSxRhuAl1Lk
+
+
+
+###
+GET {{TodoTracker_HostAddress}}/api/projects/01a0d2d8-5508-7a62-b8e9-b25aac6385e0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWEwZDJkYS0yYTdkLTczNjgtYTE4Yi00NzM4N2YxOWIyNGUiLCJsb2dpbiI6ImJvYiIsImV4cCI6MTc5MDI0NzUzMiwiaXNzIjoiVG9kb1RyYWNrZXIiLCJhdWQiOiJUb2RvVHJhY2tlckNsaWVudCJ9.eaRZsc2B3Y9m69vJNPczf_PADWiYSHKNKJ9xwBTbySU
+

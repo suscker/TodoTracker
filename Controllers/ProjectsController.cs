@@ -25,13 +25,20 @@ public class ProjectsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll()
     {
-        var dtos = await _db.Projects.Select(p => ToDto(p)).ToListAsync();
-        return Ok(dtos);
+        var userId = GetCurrentUserId();
+
+        var projects = await _db.Projects
+        .Where(p => p.OwnerId == userId)
+        .Select(p => ToDto(p))
+        .ToListAsync();
+        return Ok(projects);
     }
     [HttpGet("{id}")]
     public async Task<ActionResult<ProjectDto>>  GetById (Guid id)
     {
-        var project = await _db.Projects.FirstOrDefaultAsync(p => p.Id == id);
+        var userId = GetCurrentUserId();
+        var project = await _db.Projects
+        .FirstOrDefaultAsync(p => p.OwnerId == userId && p.Id == id);
         if(project == null) return NotFound();
         var projectDto = ToDto(project);
         return projectDto;
