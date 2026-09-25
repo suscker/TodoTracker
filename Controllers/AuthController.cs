@@ -5,6 +5,8 @@ using TodoTracker.Models;
 using TodoTracker.Models.Dto;
 using TodoTracker.Data;
 using TodoTracker.Services;
+using Microsoft.AspNetCore.Authorization;
+using TodoTracker.Extensions;
 
 
 namespace TodoTracker.Controllers;
@@ -50,6 +52,24 @@ public class AuthController : ControllerBase
         Response.Cookies.Append("access_token", token, cookieOptions);
         return UserToDto(user);
     }
+
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        Response.Cookies.Delete("access_token");
+        return NoContent();
+    }
+
+    [Authorize]
+    [HttpGet("me")]
+    public async Task<ActionResult<UserDto>> Me()
+    {
+        var userId = User.GetId();
+        var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        if(user is null) return Unauthorized();
+        return UserToDto(user); 
+    }
+
     private static UserDto UserToDto(User user) => new UserDto
     {
         Id = user.Id,
