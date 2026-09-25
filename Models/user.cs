@@ -12,4 +12,9 @@ public class User
     public string? Name { get; set; }
 
     public DateTime RegisteredAt { get;set; }
+
+    internal static ReadOnlySpan<byte> FindFirst(object nameIdentifier)
+    {
+        throw new NotImplementedException();
+    }
 }

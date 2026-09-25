@@ -66,6 +66,19 @@ public class ProjectsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = p.Id }, pDto);
     }
 
+    [HttpPut("{id}")]
+    public async Task<ActionResult<ProjectDto>> Update(Guid id, UpdateProjectRequest request)
+    {
+        var userId = User.GetId();
+        var project = await _db.Projects.FirstOrDefaultAsync(p => p.Id == id && p.OwnerId == userId);
+        if(project is null) return NotFound();
+        project.Name = request.Name;
+        project.Description = request.Description;
+        await _db.SaveChangesAsync();
+        return ToDto(project);
+    }
+
+
     private static ProjectDto ToDto(Project p) => new ProjectDto
     {
         Id = p.Id,

@@ -1,9 +1,8 @@
 namespace TodoTracker.Extensions;
 
 using System.Security.Claims;
-using TodoTracker.Models;
 
-public static class ClaimsPrincipalExntensions
+public static class ClaimsPrincipalExtensions
 {
     public static Guid GetId(this ClaimsPrincipal user)
     {
