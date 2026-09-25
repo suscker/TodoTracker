@@ -62,6 +62,46 @@ public class TasksController : ControllerBase
         return Ok(tasksDto);
     }
 
+    [HttpGet("/api/tasks/{id}")]
+    public async Task<ActionResult<TodoTaskDto>> GetById(Guid id)
+    {
+        var userId = User.GetId();
+        var task = await _db.TodoTasks.FirstOrDefaultAsync(t => t.Id == id && t.Project.OwnerId == userId);
+        if(task is null) return NotFound();
+        return ToDto(task);
+    }
+
+    [HttpPut("/api/tasks/{id}")]
+    public async Task<ActionResult<TodoTaskDto>> Update(Guid id, UpdateTodoTaskRequest request)
+    {
+        var userId = User.GetId();
+        var task = await _db.TodoTasks.FirstOrDefaultAsync(t => t.Id == id && t.Project.OwnerId == userId);
+        if(task is null) return NotFound();
+        task.Name = request.Name;
+        task.Description = request.Description;
+        task.IsDone = request.IsDone;
+        await _db.SaveChangesAsync();
+        return ToDto(task);
+    }
+
+    [HttpDelete("/api/tasks/{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var userId = User.GetId();
+        var task = await _db.TodoTasks.FirstOrDefaultAsync(t => t.Id == id && t.Project.OwnerId == userId);
+        
+        if(task is null)
+        {
+            return NotFound();
+        }
+
+        _db.TodoTasks.Remove(task);
+        await _db.SaveChangesAsync();
+        return NoContent();
+
+    }
+
+
 
     private static TodoTaskDto ToDto(TodoTask t) => new TodoTaskDto
     {
