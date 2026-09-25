@@ -18,7 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
 {
-    // 1. Описываем схему авторизации (например, JWT Bearer)
+
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -29,7 +29,6 @@ builder.Services.AddSwaggerGen(options =>
         Description = "Введите токен в формате: Bearer {ваш_токен}"
     });
 
-    // 2. Добавляем глобальное требование безопасности
     options.AddSecurityRequirement(document => new() { [new OpenApiSecuritySchemeReference("Bearer", document)] = [] });
 });
 
@@ -79,7 +78,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        // Настройка корневой точки (по желанию)
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
     });
 

@@ -8,7 +8,8 @@ public class AppDbContext : DbContext
 
     public DbSet<Project> Projects => Set<Project>();
     public DbSet<User> Users => Set<User>();
-
+    public DbSet<TodoTask> TodoTasks => Set<TodoTask>();
+ 
     public AppDbContext (DbContextOptions<AppDbContext> options) : base(options)
     {
         
@@ -18,7 +19,13 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Project>()
             .HasOne(p => p.Owner)
             .WithMany(u => u.Projects)
-            .HasForeignKey(p => p.OwnerId);
+            .HasForeignKey(p => p.OwnerId)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<TodoTask>()
+            .HasOne(t => t.Project)
+            .WithMany(p => p.Tasks)
+            .HasForeignKey(t => t.ProjectId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
 }

@@ -78,7 +78,7 @@ public class ProjectsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<ProjectDto>> Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var userId = User.GetId();
         var project = await _db.Projects.FirstOrDefaultAsync(p => p.Id == id && p.OwnerId == userId);
