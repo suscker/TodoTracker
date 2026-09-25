@@ -4,7 +4,6 @@ using TodoTracker.Models;
 using TodoTracker.Models.Dto;
 using TodoTracker.Data;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 using TodoTracker.Extensions;
 
 namespace TodoTracker.Controllers;
@@ -78,6 +77,16 @@ public class ProjectsController : ControllerBase
         return ToDto(project);
     }
 
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<ProjectDto>> Delete(Guid id)
+    {
+        var userId = User.GetId();
+        var project = await _db.Projects.FirstOrDefaultAsync(p => p.Id == id && p.OwnerId == userId);
+        if(project is null) return NotFound();
+        _db.Projects.Remove(project);
+        await _db.SaveChangesAsync();
+        return NoContent();
+    }
 
     private static ProjectDto ToDto(Project p) => new ProjectDto
     {
